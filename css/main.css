@@ -1,0 +1,71 @@
+/* main.css */
+body {
+	color: #222;
+	font-size: 16px;
+}
+
+.mui-bar-nav {
+	background-color: #f7f7f7;
+	box-shadow: none;
+}
+
+.mui-bar-nav a {
+	color: #333;
+}
+
+.mui-title {
+	color: #000;
+}
+
+.mui-tab-item .mui-icon {
+	margin-top: 3px;
+}
+
+.mui-active .mui-tab-label,.mui-active .mui-icon {
+	color: #3cc599;
+}
+
+.mui-card-header p {
+	color: #fff;
+	position: relative;
+	left: 2vw;
+	top: 26vw;
+	height: 25px;
+	line-height: 25px;
+	font-size: 16px;
+}
+
+.mui-card-content-inner p span {
+	text-transform: capitalize;
+}
+
+.mui-card-link {
+	color: #6e6e6e;
+}
+
+.mui-card-link span {
+	position: relative;
+	margin-top: 1px;
+	margin-left: 2px;
+}
+
+.mui-badge-tips {
+	background-color: #3cc599;
+	color: #fff;
+}
+
+.mui-btn-my {
+	color: #3cc599 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+

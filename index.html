@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="css/mui.css" rel="stylesheet"/>
+    <link href="css/main.css" rel="stylesheet"/>
+    <script src="js/mui.js"></script>
+</head>
+<body>
+	
+	<header class="mui-bar mui-bar-nav">
+	    <h1 class="mui-title">Lara博客</h1>
+		<a class="mui-icon mui-icon-bars mui-pull-right"></a>
+	</header>
+	
+	<nav class="mui-bar mui-bar-tab">
+	    <a class="mui-tab-item mui-active" href="sub1.html">
+	        <span class="mui-icon mui-icon-home"></span>
+	        <span class="mui-tab-label">首页</span>
+	    </a>
+	    <a class="mui-tab-item" href="sub2.html">
+	        <span class="mui-icon mui-icon-plus-filled"></span>
+	        <span class="mui-tab-label">标签</span>
+	    </a>
+	    <a class="mui-tab-item" href="sub3.html">
+	        <span class="mui-icon mui-icon-search"></span>
+	        <span class="mui-tab-label">发现</span>
+	    </a>
+	    <a class="mui-tab-item" href="sub4.html">
+	        <span class="mui-icon mui-icon-person-filled"></span>
+	        <span class="mui-tab-label">我的</span>
+	    </a>
+	</nav>
+	
+</body>
+</html>
+
+<script type="text/javascript">
+	
+	mui.init();
+	
+	var subPages = ['sub1.html','sub2.html','sub3.html','sub4.html'];
+	var subStyle = {
+		top : '45px',
+		bottom : '45px'
+	};
+	
+	var self = null,menu = null;
+	
+	mui.plusReady(function (){
+		self = plus.webview.currentWebview();
+		
+//		self.addEventListener("maskClick",function(){
+//			menu.close("auto");
+//		},false);
+		
+		for(var i=0; i<subPages.length; i++){
+			var sub = plus.webview.create(subPages[i],subPages[i], subStyle);
+			sub.hide();
+			self.append(sub);
+		}
+		
+		plus.webview.show(subPages[0]);
+		
+		mui('.mui-bar-tab').on('tap', 'a', function (){
+			var currentPage = this.getAttribute('href');
+			plus.webview.show(currentPage);
+			
+			var lastChild = this.children[this.children.length-1];
+			var title = lastChild.innerText;
+			
+			if(title == '首页'){
+				title = 'Lara博客';
+			}
+			document.querySelector('.mui-title').innerText = title;
+		});
+		
+	});
+	
+</script>

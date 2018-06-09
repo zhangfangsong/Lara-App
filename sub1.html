@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="css/mui.css" rel="stylesheet"/>
+    <link href="css/main.css" rel="stylesheet"/>
+    <script src="js/mui.js"></script>
+    <script src="js/lara.js"></script>
+    <style type="text/css">
+    		.mui-table-view {border-top: 1px solid #fff;}
+    </style>
+</head>
+<body>
+	
+	<!--下拉刷新容器-->
+	<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+		    <!--数据列表-->
+		    <ul class="mui-table-view"></ul>
+		</div>
+	</div>
+	
+</body>
+</html>
+
+<script type="text/javascript">
+	mui.init({
+		pullRefresh : {
+			container : '#refreshContainer',
+			down : {
+				contentdown : '下拉可以刷新',
+				contentover : '释放立即刷新',
+				contentrefresh : '正在刷新...',
+				callback : pulldownRefresh
+			},
+			up : {
+				contentrefresh : '正在加载...',
+				contentnomore : '没有更多数据了...',
+				callback : pullupRefresh
+			}
+		}
+	});
+	
+	mui(".mui-table-view").on("tap", ".mui-card", function (){
+		var aid = this.getAttribute("aid");
+		
+		mui.openWindow({
+			url : 'detail.html',
+			id : 'detail.html',
+			styles : {},
+			extras : {
+				aid : aid
+			},
+			show : {
+				autoShow : true,
+				aniShow : 'slide-in-right',
+				duration : 100
+			},
+			waiting : {
+				autoShow : true,
+				title : '正在加载...'
+			}
+		});
+		
+	});
+	
+	var url = domain + 'api/v1/index';
+	var urlPullDown = domain + 'api/v1/pullDown';
+	var ul = document.querySelector('.mui-table-view');
+	
+	mui(".mui-scroll-wrapper").scroll({
+        bounce: true,//滚动条是否有弹力默认是true
+      	indicators: false, //是否显示滚动条,默认是true
+    });
+
+	mui.get(url, {limit : 6}, function(data){			
+		if(data.code == 0 && data.data.length > 0){
+			for(var i=0; i<data.data.length; i++){
+				var div = document.createElement('div');
+				div.className = "mui-card";
+				div.setAttribute("aid",data.data[i].id);
+				
+				var htmlStr = '';
+				htmlStr += '<div class="mui-card-header mui-card-media" style="height: 40vw;background-image: url('+data.data[i].thumb+');"><p>' +data.data[i].title+ '</p></div>';
+				htmlStr += '<div class="mui-card-content">';
+				htmlStr += '<div class="mui-card-content-inner">';
+				htmlStr += '<p><span>' +data.data[i].author+ '</span> 发布于 ' +data.data[i].publish_time+ '</p>';
+				htmlStr += '<p style="color: #333;">' +data.data[i].description+ '</p>';
+				htmlStr += '</div>';
+				htmlStr += '</div>';
+				htmlStr += '<div class="mui-card-footer">';
+				htmlStr += '<a class="mui-card-link">点击<span class="mui-badge mui-badge-inverted">' +data.data[i].click+ '</span></a>';
+				htmlStr += '<a class="mui-card-link">评论<span class="mui-badge mui-badge-inverted">' +data.data[i].comments+ '</span></a>';
+				htmlStr += '<a class="mui-card-link">阅读更多...</a>';
+				htmlStr += '</div>';
+				htmlStr += '</div>';
+				
+				div.innerHTML = htmlStr;
+				ul.appendChild(div);
+			}
+		}else{
+			mui.toast('没有更多内容了...');
+		}
+	},'json');
+	
+	// 下拉刷新
+	function pulldownRefresh(){
+		setTimeout(function (){
+			var data = {};
+			var lis = document.querySelectorAll('.mui-card');
+			var firstLi = lis[0];
+			data.aid = firstLi.getAttribute('aid');
+			
+			mui.get(urlPullDown, data, function(data){			
+				if(data.code == 0 && data.data.length > 0){
+					for(var i=0; i<data.data.length; i++){
+						var div = document.createElement('div');
+						div.className = "mui-card";
+						div.setAttribute("aid",data.data[i].id);
+						
+						var htmlStr = '';
+						htmlStr += '<div class="mui-card-header mui-card-media" style="height: 40vw;background-image: url('+data.data[i].thumb+');"><p>' +data.data[i].title+ '</p></div>';
+						htmlStr += '<div class="mui-card-content">';
+						htmlStr += '<div class="mui-card-content-inner">';
+						htmlStr += '<p><span>' +data.data[i].author+ '</span> 发布于 ' +data.data[i].publish_time+ '</p>';
+						htmlStr += '<p style="color: #333;">' +data.data[i].description+ '</p>';
+						htmlStr += '</div>';
+						htmlStr += '</div>';
+						htmlStr += '<div class="mui-card-footer">';
+						htmlStr += '<a class="mui-card-link">点击<span class="mui-badge mui-badge-inverted">' +data.data[i].click+ '</span></a>';
+						htmlStr += '<a class="mui-card-link">评论<span class="mui-badge mui-badge-inverted">' +data.data[i].comments+ '</span></a>';
+						htmlStr += '<a class="mui-card-link">阅读更多...</a>';
+						htmlStr += '</div>';
+						htmlStr += '</div>';
+						
+						div.innerHTML = htmlStr;
+						ul.insertBefore(div, ul.firstChild);
+					}
+				}
+			},'json');
+			
+			mui("#refreshContainer").pullRefresh().endPulldownToRefresh();
+		}, 1500);
+		
+	}
+	
+	// 上拉加载
+	function pullupRefresh(){
+		setTimeout(function (){
+			var data = {
+				limit : 6
+			};
+			
+			var lis = document.querySelectorAll('.mui-card');
+			var lastLi = lis[lis.length-1];
+			data.aid = lastLi.getAttribute('aid');
+			
+			mui.get(url, data, function(data){			
+				if(data.code == 0 && data.data.length > 0){
+					for(var i=0; i<data.data.length; i++){
+						var div = document.createElement('div');
+						div.className = "mui-card";
+						div.setAttribute("aid",data.data[i].id);
+						
+						var htmlStr = '';
+						htmlStr += '<div class="mui-card-header mui-card-media" style="height: 40vw;background-image: url('+data.data[i].thumb+');"><p>' +data.data[i].title+ '</p></div>';
+						htmlStr += '<div class="mui-card-content">';
+						htmlStr += '<div class="mui-card-content-inner">';
+						htmlStr += '<p><span>' +data.data[i].author+ '</span> 发布于 ' +data.data[i].publish_time+ '</p>';
+						htmlStr += '<p style="color: #333;">' +data.data[i].description+ '</p>';
+						htmlStr += '</div>';
+						htmlStr += '</div>';
+						htmlStr += '<div class="mui-card-footer">';
+						htmlStr += '<a class="mui-card-link">点击<span class="mui-badge mui-badge-inverted">' +data.data[i].click+ '</span></a>';
+						htmlStr += '<a class="mui-card-link">评论<span class="mui-badge mui-badge-inverted">' +data.data[i].comments+ '</span></a>';
+						htmlStr += '<a class="mui-card-link">阅读更多...</a>';
+						htmlStr += '</div>';
+						htmlStr += '</div>';
+						
+						div.innerHTML = htmlStr;
+						ul.appendChild(div);
+						
+						if(data.data.length < 6){
+							mui("#refreshContainer").pullRefresh().disablePullupToRefresh();
+						}
+					}
+				}else{
+					mui.toast('没有更多内容了...');
+				}
+			},'json');
+			
+			mui('#refreshContainer').pullRefresh().endPullupToRefresh();
+		}, 1500);
+		
+	}
+</script>
