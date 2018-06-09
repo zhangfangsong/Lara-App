@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="css/mui.css" rel="stylesheet"/>
+    <link href="css/main.css" rel="stylesheet"/>
+    <script src="js/mui.js"></script>
+    <script src="js/lara.js"></script>
+    <style type="text/css">
+    		.mui-table-view-cell {
+    			color: #222;
+    			font-size: 16px;
+    		}
+    </style>
+</head>
+<body>
+	
+	<div class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<ul class="mui-table-view">
+				
+			</ul>
+		</div>
+	</div>
+	
+</body>
+</html>
+<script type="text/javascript">
+	mui.init();
+	
+	mui(".mui-scroll-wrapper").scroll({
+        bounce: true,//滚动条是否有弹力默认是true
+      	indicators: false, //是否显示滚动条,默认是true
+   	});
+   
+	var ul = document.querySelector('.mui-table-view');
+	
+	mui(".mui-table-view").on("tap",".mui-table-view-cell", function (){
+		var keywords = this.getAttribute("keywords");
+		
+		mui.openWindow({
+			url : 'search.html',
+			id : 'search.html',
+			styles : {},
+			extras : {
+				keywords : keywords
+			},
+			show : {
+				autoShow : true,
+				aniShow : 'slide-in-right',
+				duration : 100
+			},
+			waiting : {
+				autoShow : true,
+				title : '正在加载...'
+			}
+		});
+	});
+	
+	mui.get(Lara.tags, {}, function (data){
+		if(data.data.length > 0){
+			Lara.getTagList(ul, data);
+		}else{
+			mui.toast('没有更多内容了...');
+		}
+	}, 'json');
+	
+</script>

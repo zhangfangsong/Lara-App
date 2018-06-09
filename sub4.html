@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="css/mui.css" rel="stylesheet"/>
+    <link href="css/main.css" rel="stylesheet"/>
+    <script src="js/mui.js"></script>
+	<style>		
+		.mui-scroll-wrapper,
+		.mui-scroll {
+			background-color: #efeff4;
+		}
+		.mui-table-view {
+			margin-top: 20px;
+		}
+		.mui-table-view:first-child {
+			margin-top: 0px;
+		}
+		.update {
+			font-style: normal;
+			color: #999;
+			margin-right: -25px;
+			font-size: 15px
+		}
+		.update span {
+			font-size: 14px;
+		}
+	</style>
+</head>
+<body>
+	
+	<div class="mui-content">
+		<div class="mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell mui-media">
+						<a class="mui-navigate-right" href="">
+							<img class="mui-media-object mui-pull-left head-img" id="head-img" src="imgs/3.jpg">
+							<div class="mui-media-body">
+								Lara博客
+								<p class='mui-ellipsis'>账号:zfsphp</p>
+							</div>
+						</a>
+					</li>
+				</ul>
+				
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell">
+						<a href="myArticle.html" class="mui-navigate-right">我的文章</a>
+					</li>
+				</ul>
+				
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell">
+						<a href="collection.html" class="mui-navigate-right">我的收藏</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="" class="mui-navigate-right">我的评论</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="" class="mui-navigate-right">我的消息</a>
+					</li>
+				</ul>
+				
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell">
+						<a href="" class="mui-navigate-right">关于博客 <i class="mui-pull-right update"><span>V</span>1.0</i></a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="welcome.html" class="mui-navigate-right">欢迎页面</a>
+					</li>
+				</ul>
+				
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell" style="text-align: center;">
+						<a href="">退出登录</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+</body>
+</html>
+<script type="text/javascript">
+	mui.init();
+	mui(".mui-table-view").on("tap","a", function (){
+		var page = this.getAttribute("href");
+		
+		if(page != ''){
+			mui.openWindow({
+				url : page,
+				id : page,
+				styles : {},
+				extras : {
+				},
+				show : {
+					autoShow : true,
+					aniShow : 'slide-in-right',
+					duration : 100
+				},
+				waiting : {
+					autoShow : true,
+					title : '正在加载...'
+				}
+			});
+		}
+	});
+</script>

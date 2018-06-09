@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="css/mui.css" rel="stylesheet"/>
+    <link href="css/main.css" rel="stylesheet"/>
+    <script src="js/mui.js"></script>
+    <script src="js/lara.js"></script>
+	<style type="text/css">
+		.mui-table-view .mui-media-object {
+			max-width: initial;
+			width: 90px;
+			height: 70px;
+			border-radius: 1px;
+		}
+		.meta-info {
+			position: absolute;
+			left: 115px;
+			right: 15px;
+			bottom: 10px;
+		}
+		.meta-info .author,.meta-info .time{
+			display: inline-block;
+			font-size: 14px;
+			color: #7f7f7f;
+		}
+		.meta-info .time{
+			float: right;
+		}
+		.mui-ellipsis-2 {
+			color: #333;
+			font-size: 15px;
+		}
+	</style>
+</head>
+<body>
+	
+	<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<ul id="list" class="mui-table-view">
+				
+			</ul>
+		</div>
+	</div>
+	
+</body>
+</html>
+<script type="text/javascript">
+	mui.init({
+		pullRefresh : {
+			container : '#refreshContainer',
+			up : {
+				contentrefresh : '正在加载...',
+				contentnomore : '没有更多数据了...',
+				callback : pullupRefresh
+			}
+		}
+	});
+	
+	mui(".mui-scroll-wrapper").scroll({
+        bounce: true,//滚动条是否有弹力默认是true
+      	indicators: false, //是否显示滚动条,默认是true
+    });
+    
+    mui('.mui-table-view').on("tap",".mui-table-view-cell", function (){
+    		var aid = this.getAttribute("aid");
+    		
+    		mui.openWindow(Lara.getDetail(aid));
+    });
+	
+	var ul = document.querySelector(".mui-table-view");
+	var limit = 3;
+	var page = 1;
+	
+	mui.get(Lara.search, {page : page, limit : limit}, function (data){
+		if(data.data.length > 0){
+			Lara.getSearchList(ul, data);
+			
+			if(data.data.length < limit){
+				mui("#refreshContainer").pullRefresh().disablePullupToRefresh();
+			}
+		}else{
+			mui.toast('没有更多内容了...');
+		}
+	},'json');
+	
+	function pullupRefresh(){
+		setTimeout(function (){
+			page++;
+			
+			mui.get(url, {page : page, limit : limit}, function(data){
+				if(data.data.length > 0){
+					Lara.getSearchList(ul, data);
+				}else{
+					mui.toast('没有更多内容了...');
+				}
+			},'json');
+			
+			mui('#refreshContainer').pullRefresh().endPullupToRefresh();
+		}, 1500);
+		
+	}
+</script>
