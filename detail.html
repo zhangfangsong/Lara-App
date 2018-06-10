@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="css/mui.css" rel="stylesheet"/>
+    <script src="js/mui.js"></script>
+    <script src="js/lara.js"></script>
+    <style type="text/css">
+		.mui-content {
+			background-color: #fff !important;
+			padding-bottom: 30px;
+		}
+		.article-banner {
+			height: 180px;
+			position: relative;
+		}
+		.article-cover {
+			background-position: center;
+			background-color: #ccc;
+			background-size: cover;
+			background-repeat: no-repeat;
+			width: 100%;
+			height: 180px;
+			position: relative;
+		}
+		.article-cover img {
+			width: 100%;
+			max-height: 180px;
+			height: 180px;
+		}
+		.article-title {
+			position: absolute;
+			left: 18px;
+			bottom: 15px;
+			width: 90%;
+			font-size: 16px;
+			font-weight: normal;
+			line-height: 21px;
+			color: #fff;
+		}
+		.article-content {
+			background: #fff;
+		}
+		.article-meta {
+			padding: 10px 0 10px 10px;
+			display: table;
+		}
+		.article-meta div {
+			height: 30px;
+			font-size: 15px;
+			display: table-cell;
+			vertical-align: middle;
+			color: gray;
+			padding: 0 5px;
+		}
+		.article-meta .article-author {
+			text-transform: capitalize;
+		}
+		.article-text {
+			font-size: 13px !important;
+		}
+		.article-article {
+			font-size: 15px;
+			padding: 0 15px 15px 15px;
+		}
+		.article-article p {
+			font-size: 15px;
+			line-height: 24px;
+			color: #222;
+		}
+		.article-article img {
+			max-width: 100%;
+			width: 100%;
+			height: auto;
+		}
+		pre {
+			background-color: #efecf4;
+			font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace !important;
+			border: 0 !important;
+			font-size: 14px !important;
+			padding: 5px 0 8px 8px !important;
+			line-height: 25px;
+		}
+		.article-comment {
+			font-size: 16px;
+			color: #333;
+			width: 92%;
+			margin: 0 auto;
+			padding-bottom: 15px;
+		}
+		.article-comment-title {
+			font-size: 16px;
+			line-height: 25px;
+			border-bottom: 1px solid #efefef;
+		}
+		.article-comment-title span {
+			display: inline-block;
+			border-bottom: 2px solid #3cc599;
+			padding: 5px 2px 5px 2px;
+		}
+		.no-comments {
+			line-height: 28px;
+			text-align: center;
+			font-size: 14px;
+			color: #999;
+			margin-top: 15px;
+		}
+		.mui-card {
+			border: none;
+			box-shadow: none;
+			margin-bottom: 0px;
+			padding-bottom: 5px;
+			border-bottom: 1px solid #efefef;
+		}
+		.mui-card-header {
+			border: none;
+			box-shadow: none;
+		}
+		.mui-card-header.mui-card-media {
+			padding: 0px;
+		}
+		.mui-card-header > img:first-child {
+			width: 40px;
+			height: 40px;
+			border-radius: 100%;
+		}
+		.mui-card-header::after, .mui-card-footer::before {
+			height: 0;
+		}
+		.mui-media-body {
+			color: #8f8f94 !important;
+			font-weight: normal;
+			margin-left: 50px !important;
+			margin-top: 2px;
+		}
+		.mui-media-body p {
+			margin-top: 4px;
+			font-weight: normal;
+		}
+		.mui-card-content {
+			border: none;
+			box-shadow: none;
+			color: #222;
+			font-size: 15px;
+			line-height: 25px;
+		}
+		.footer-tab {
+			position: fixed;
+			bottom: 0;
+			height: 35px;
+			width: 100%;
+			background-color: #f7f7f7;
+		}
+		.footer-tab a {
+			display: block;
+			width: 30%;
+			float: left;
+			color: #000;
+			line-height: 35px;
+		}
+		.footer-tab a:first-child {
+			margin-left: 15px;
+		}
+		.footer-tab a:last-child {
+			float: right;
+			margin-right: 15px;
+			text-align: right;
+		}
+		.footer-tab a span {
+			font-size: 15px;
+			font-weight: normal;
+		}
+		.footer-tab a span.mui-icon {
+			font-size: 18px;
+			padding-right: 2px;
+		}
+		.footer-tab a span.active {
+			color: #3cc599;
+			
+		}
+    </style>
+</head>
+<body>
+	
+	<div class="mui-content">
+		<div class="article-banner">
+			<div class="article-cover">
+				<img src="" class="article-thumb">
+			</div>
+			<h2 class="article-title"></h2>
+		</div>
+		
+		<div class="article-content">
+			<!-- 文章作者、发布时间等信息 -->
+			<div class="article-meta">
+				<div class="article-author"></div>
+				<div class="article-text">发表于</div>
+				<div class="article-time"></div>
+			</div>
+			<!--文章详细内容-->
+			<div class="article-article"></div>
+		</div>
+		
+		<div class="article-comment">
+			<div class="article-comment-title"><span>全部评论</span></div>
+			
+			<!--评论列表-->
+		</div>
+		
+	</div>
+	
+	<div class="footer-tab">
+		<a class="doComment"><span class="mui-icon mui-icon-chatboxes-filled"></span><span>评论</span></a>
+		<a class="doCollect"><span class="mui-icon mui-icon-star-filled"></span><span>收藏</span></a>
+	</div>
+	
+	<script type="text/javascript">
+		mui.init();
+		
+		var commentDom = document.querySelector(".article-comment");
+		
+		function inArray(arr, val){
+			for(var i=0; i<arr.length; i++){
+				if(arr[i] == val){
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		function delVal(arr, val){
+			var tmp = [];
+			
+			for(var i=0; i<arr.length; i++){
+				if(arr[i] != val){
+					tmp.push(arr[i]);
+				}
+			}
+			
+			return tmp;
+		}
+		
+		mui.plusReady(function (){
+			var cw = plus.webview.currentWebview();
+			var aid = cw.aid;
+			
+			var aids = plus.storage.getItem("collect_articles");
+			if(aids != null && aids != ''){
+				var aids_arr = aids.split(",");
+				if(inArray(aids_arr, aid)){
+					document.querySelector(".doCollect .mui-icon").className = "mui-icon mui-icon-star-filled active";
+				}
+			}
+			
+			document.querySelector(".doCollect").addEventListener("tap", function (){
+				var aids = plus.storage.getItem("collect_articles");
+				var isCollect = null;
+				
+				if(aids === null || aids == ''){
+					plus.storage.setItem("collect_articles",aid);
+					isCollect = true;
+				}else{
+					var aids_arr = aids.split(",");
+					
+					if(inArray(aids_arr, aid)){
+						aids_arr = delVal(aids_arr, aid);
+						isCollect = false;
+					}else{
+						aids_arr.push(aid);
+						isCollect = true;
+					}
+					
+					plus.storage.setItem("collect_articles", aids_arr.join(","));
+				}
+				
+				if(isCollect){
+					mui.toast("文章收藏成功");
+					document.querySelector(".doCollect .mui-icon").className = "mui-icon mui-icon-star-filled active";
+				}else{
+					mui.toast("文章取消收藏");
+					document.querySelector(".doCollect .mui-icon").className = "mui-icon mui-icon-star-filled";
+				}
+			});
+			
+			// 去评论
+			document.querySelector(".doComment").addEventListener("tap", function (){
+				mui.openWindow({
+					url : 'comment.html',
+					id : 'comment.html',
+					styles : {},
+					extras : {
+						aid : aid
+					},
+					show : {
+						autoShow : true,
+						aniShow : 'slide-in-right',
+						duration : 100
+					},
+					waiting : {
+						autoShow : true,
+						title : '正在加载...'
+					}
+				});
+				
+			});
+			
+			mui.ajax(Lara.article + aid + '?include=category,user,comment,comment.user', {
+				type : 'get',
+				dataType : 'json',
+				timeout : 10000,
+				success : function (data){
+					Lara.getArticleDetail(commentDom, data);
+					
+					var titleNView = { //详情页原生导航配置
+						backgroundColor: '#f7f7f7', //导航栏背景色
+						titleText: data.title, //导航栏标题
+						titleColor: '#000000', //文字颜色
+						type: 'transparent', //透明渐变样式
+						autoBackButton: true, //自动绘制返回箭头
+						splitLine: { //底部分割线
+							color: '#cccccc'
+						}
+					};
+					
+					cw.setStyle({
+						"titleNView": titleNView
+					});
+				}
+			});
+			
+		});
+	</script>
+	
+</body>
+</html>

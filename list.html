@@ -52,6 +52,7 @@
 		pullRefresh : {
 			container : '#refreshContainer',
 			up : {
+				height : '200px',
 				contentrefresh : '正在加载...',
 				contentnomore : '没有更多数据了...',
 				callback : pullupRefresh
@@ -67,32 +68,55 @@
     mui('.mui-table-view').on("tap",".mui-table-view-cell", function (){
     		var aid = this.getAttribute("aid");
     		
-    		mui.openWindow(Lara.getDetail(aid));
+    		mui.openWindow(Lara.getDetail('detail.html', {aid:aid}));
     });
 	
 	var ul = document.querySelector(".mui-table-view");
-	var limit = 3;
+	var catid = '';
+	var catname = '';
 	var page = 1;
+	var limit = 3;
 	
-	mui.get(Lara.search, {page : page, limit : limit}, function (data){
-		if(data.data.length > 0){
-			Lara.getSearchList(ul, data);
-			
-			if(data.data.length < limit){
-				mui("#refreshContainer").pullRefresh().disablePullupToRefresh();
+	mui.plusReady(function (){
+		var cw = plus.webview.currentWebview();
+		catid = cw.catid;
+		catname = cw.catname;
+		
+		var titleNView = { //详情页原生导航配置
+			backgroundColor: '#f7f7f7', //导航栏背景色
+			titleText: catname, //导航栏标题
+			titleColor: '#000000', //文字颜色
+			autoBackButton: true, //自动绘制返回箭头
+			splitLine: { //底部分割线
+				color: '#cccccc'
 			}
-		}else{
-			mui.toast('没有更多内容了...');
-		}
-	},'json');
+		};
+		
+		cw.setStyle({
+			"titleNView": titleNView
+		});
+		
+		mui.get(Lara.search, {page : page, catid : catid, limit : limit}, function (data){
+			if(data.data.length > 0){
+				Lara.getArticleList(ul, data, true);
+				
+				if(data.data.length < limit){
+					mui("#refreshContainer").pullRefresh().disablePullupToRefresh();
+				}
+			}else{
+				mui.toast('没有更多内容了...');
+			}
+		},'json');
+		
+	});
 	
 	function pullupRefresh(){
 		setTimeout(function (){
 			page++;
 			
-			mui.get(Lara.search, {page : page, limit : limit}, function(data){
+			mui.get(Lara.search, {page : page,catid : catid, limit: limit}, function(data){
 				if(data.data.length > 0){
-					Lara.getSearchList(ul, data);
+					Lara.getArticleList(ul, data, true);
 				}else{
 					mui.toast('没有更多内容了...');
 				}
@@ -100,6 +124,5 @@
 			
 			mui('#refreshContainer').pullRefresh().endPullupToRefresh();
 		}, 1500);
-		
 	}
 </script>

@@ -52,9 +52,9 @@
 	mui.plusReady(function (){
 		self = plus.webview.currentWebview();
 		
-//		self.addEventListener("maskClick",function(){
-//			menu.close("auto");
-//		},false);
+		self.addEventListener("maskClick",function(){
+			menu.close("auto");
+		},false);
 		
 		for(var i=0; i<subPages.length; i++){
 			var sub = plus.webview.create(subPages[i],subPages[i], subStyle);
@@ -76,6 +76,26 @@
 			}
 			document.querySelector('.mui-title').innerText = title;
 		});
+		
+	});
+	
+	document.querySelector(".mui-icon-bars").addEventListener("tap", function (){
+		if(menu){
+			return;
+		}
+		// 开启遮罩
+		self.setStyle({mask:"rgba(0,0,0,0.5)"});
+		// 创建侧滑页面
+		menu = plus.webview.create("nav.html","nav.html",{left:"0%",width:"70%",popGesture:"none"});
+		// 侧滑页面关闭后关闭遮罩
+		menu.addEventListener('close',function(){
+			self.setStyle({mask:"none"});
+			menu = null;
+		},false);
+		// 侧滑页面加载后显示（避免白屏）
+		menu.addEventListener("loaded",function(){
+			menu.show("slide-in-left",200);
+		},false);
 		
 	});
 	
