@@ -10,6 +10,7 @@ var Lara = (function (){
 		nav      : domain + 'api/v1/categories',
 		article  : domain + 'api/v1/article/',
 		signup   : domain + 'api/v1/users',
+		login    : domain + 'api/v1/login',
 		getArticleList : function (dom, data, after){
 			for(var i=0; i<data.data.length; i++){
 				var div = document.createElement('div');
