@@ -1,6 +1,6 @@
 
 var Lara = (function (){
-	var domain = 'http://weblog.test/';
+	var domain = 'http://lara.zfsphp.com/';
 	
 	return {
 		articles : domain + 'api/v1/articles?include=user,category',
@@ -78,7 +78,7 @@ var Lara = (function (){
 			for(var i=0; i<data.data.length; i++){
 				var li = document.createElement('li');
 				li.className = "mui-table-view-cell";
-				li.setAttribute("keywords", data.data[i].name);
+				li.setAttribute("tag", data.data[i].name);
 				
 				var htmlStr = '<a class="mui-navigate-right"><span class="mui-badge mui-badge-tips">' +data.data[i].article_count+ '</span>' +data.data[i].name+ '</a>';
 				li.innerHTML = htmlStr;

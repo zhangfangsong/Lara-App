@@ -218,71 +218,16 @@
 	
 	<script type="text/javascript">
 		mui.init();
-		
 		var commentDom = document.querySelector(".article-comment");
-		
-		function inArray(arr, val){
-			for(var i=0; i<arr.length; i++){
-				if(arr[i] == val){
-					return true;
-				}
-			}
-			
-			return false;
-		}
-		
-		function delVal(arr, val){
-			var tmp = [];
-			
-			for(var i=0; i<arr.length; i++){
-				if(arr[i] != val){
-					tmp.push(arr[i]);
-				}
-			}
-			
-			return tmp;
-		}
-		
+
 		mui.plusReady(function (){
 			var cw = plus.webview.currentWebview();
 			var aid = cw.aid;
 			
 			var aids = plus.storage.getItem("collect_articles");
-			if(aids != null && aids != ''){
-				var aids_arr = aids.split(",");
-				if(inArray(aids_arr, aid)){
-					document.querySelector(".doCollect .mui-icon").className = "mui-icon mui-icon-star-filled active";
-				}
-			}
 			
 			document.querySelector(".doCollect").addEventListener("tap", function (){
-				var aids = plus.storage.getItem("collect_articles");
-				var isCollect = null;
 				
-				if(aids === null || aids == ''){
-					plus.storage.setItem("collect_articles",aid);
-					isCollect = true;
-				}else{
-					var aids_arr = aids.split(",");
-					
-					if(inArray(aids_arr, aid)){
-						aids_arr = delVal(aids_arr, aid);
-						isCollect = false;
-					}else{
-						aids_arr.push(aid);
-						isCollect = true;
-					}
-					
-					plus.storage.setItem("collect_articles", aids_arr.join(","));
-				}
-				
-				if(isCollect){
-					mui.toast("文章收藏成功");
-					document.querySelector(".doCollect .mui-icon").className = "mui-icon mui-icon-star-filled active";
-				}else{
-					mui.toast("文章取消收藏");
-					document.querySelector(".doCollect .mui-icon").className = "mui-icon mui-icon-star-filled";
-				}
 			});
 			
 			// 去评论

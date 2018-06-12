@@ -38,14 +38,14 @@
 	var ul = document.querySelector('.mui-table-view');
 	
 	mui(".mui-table-view").on("tap",".mui-table-view-cell", function (){
-		var keywords = this.getAttribute("keywords");
+		var tag = this.getAttribute("tag");
 		
 		mui.openWindow({
 			url : 'search.html',
 			id : 'search.html',
 			styles : {},
 			extras : {
-				keywords : keywords
+				tag : tag
 			},
 			show : {
 				autoShow : true,

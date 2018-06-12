@@ -65,9 +65,8 @@
       	indicators: false, //是否显示滚动条,默认是true
     });
     
-    mui('.mui-table-view').on("tap",".mui-table-view-cell", function (){
+    mui('.mui-table-view').on("tap",".mui-card", function (){
     		var aid = this.getAttribute("aid");
-    		
     		mui.openWindow(Lara.getDetail('detail.html', {aid:aid}));
     });
 	
