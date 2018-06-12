@@ -123,9 +123,20 @@
 			password : password
 		}, function (data){
 			if(data.status_code != null){
-				plus.nativeUI.toast(data.message);
+				if(data.status_code == 401){
+					plus.nativeUI.toast(data.message);
+				}else{
+					mui.each(data.errors, function (index, error){
+						plus.nativeUI.toast(error[0]);
+						return false;
+					});
+				}
 			}else{
-				
+				plus.nativeUI.toast('登录成功');
+				var token = data.access_token;
+				plus.storage.setItem('token', token);
+				plus.webview.currentWebview().close();
+				plus.webview.getWebviewById('sub4.html').reload();
 			}
 		},'json');
 	});

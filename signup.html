@@ -99,7 +99,24 @@
 					return false;
 				});
 			}else{
-				
+				plus.nativeUI.toast('注册成功');
+				plus.webview.currentWebview().close();
+				mui.openWindow({
+					url : 'login.html',
+					id : 'login.html',
+					styles : {},
+					extras : {
+					},
+					show : {
+						autoShow : true,
+						aniShow : 'slide-in-right',
+						duration : 100
+					},
+					waiting : {
+						autoShow : true,
+						title : '正在加载...'
+					}
+				});
 			}
 		},'json');
 		

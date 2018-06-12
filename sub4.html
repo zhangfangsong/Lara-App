@@ -7,6 +7,7 @@
     <link href="css/mui.css" rel="stylesheet"/>
     <link href="css/main.css" rel="stylesheet"/>
     <script src="js/mui.js"></script>
+    <script src="js/lara.js"></script>
 	<style>		
 		.mui-scroll-wrapper,
 		.mui-scroll {
@@ -27,6 +28,7 @@
 		.update span {
 			font-size: 14px;
 		}
+		
 	</style>
 </head>
 <body>
@@ -34,7 +36,7 @@
 	<div class="mui-content">
 		<div class="mui-scroll-wrapper">
 			<div class="mui-scroll">
-				<ul class="mui-table-view mui-table-view-chevron">
+				<ul class="mui-table-view mui-table-view-chevron" id="userinfo">
 					<li class="mui-table-view-cell mui-media">
 						<a class="mui-navigate-right" href="">
 							<img class="mui-media-object mui-pull-left head-img" id="head-img" src="imgs/3.jpg">
@@ -46,7 +48,7 @@
 					</li>
 				</ul>
 				
-				<ul class="mui-table-view mui-table-view-chevron">
+				<ul class="mui-table-view mui-table-view-chevron" id="login-form">
 					<li class="mui-table-view-cell mui-media">
 						<a class="mui-navigate-right" href="login.html">
 							<img class="mui-media-object mui-pull-left head-img" id="head-img" src="imgs/3.jpg">
@@ -84,9 +86,9 @@
 					</li>
 				</ul>
 				
-				<ul class="mui-table-view">
+				<ul class="mui-table-view" id="login-out">
 					<li class="mui-table-view-cell" style="text-align: center;">
-						<a href="">退出登录</a>
+						<a href="logout.html">退出登录</a>
 					</li>
 				</ul>
 			</div>
@@ -97,26 +99,50 @@
 </html>
 <script type="text/javascript">
 	mui.init();
+	
 	mui(".mui-table-view").on("tap","a", function (){
 		var page = this.getAttribute("href");
 		
 		if(page != ''){
-			mui.openWindow({
-				url : page,
-				id : page,
-				styles : {},
-				extras : {
-				},
-				show : {
-					autoShow : true,
-					aniShow : 'slide-in-right',
-					duration : 100
-				},
-				waiting : {
-					autoShow : true,
-					title : '正在加载...'
-				}
-			});
+			if(page == 'logout.html'){
+				plus.storage.removeItem('token');
+				plus.nativeUI.toast('退出登录成功');
+				plus.webview.currentWebview().reload();
+			}else{
+				mui.openWindow({
+					url : page,
+					id : page,
+					styles : {},
+					extras : {
+					},
+					show : {
+						autoShow : true,
+						aniShow : 'slide-in-right',
+						duration : 100
+					},
+					waiting : {
+						autoShow : true,
+						title : '正在加载...'
+					}
+				});
+			}
+		}
+	});
+	
+	mui.plusReady(function (){
+		var token = plus.storage.getItem('token');
+		var userinfo = document.getElementById("userinfo");
+		var login = document.getElementById("login-form");
+		var logout = document.getElementById("login-out");
+		
+		if(token){
+			userinfo.style.display = 'block';
+			login.style.display = 'none';
+			logout.style.display = 'block';
+		}else{
+			userinfo.style.display = 'none';
+			login.style.display = 'block';
+			logout.style.display = 'none';
 		}
 	});
 </script>
