@@ -2,13 +2,14 @@
 var Lara = (function (){
 	var domain = 'http://weblog.test/';
 	
-	var Lara = {
+	return {
 		articles : domain + 'api/v1/articles?include=user,category',
 		pulldown : domain + 'api/v1/pulldown?include=user,category',
 		tags     : domain + 'api/v1/tags',
 		search   : domain + 'api/v1/search?include=user,category',
 		nav      : domain + 'api/v1/categories',
 		article  : domain + 'api/v1/article/',
+		signup   : domain + 'api/v1/users',
 		getArticleList : function (dom, data, after){
 			for(var i=0; i<data.data.length; i++){
 				var div = document.createElement('div');
@@ -149,11 +150,6 @@ var Lara = (function (){
 			}
 		}
 	};
-	
-	return Lara;
 })();
-
-
-
 
 

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+	<link href="css/mui.css" rel="stylesheet" />
+	<link href="css/main.css" rel="stylesheet" />
+	<script src="js/mui.js"></script>
+	<script src="js/lara.js"></script>
+	<style>
+		.ui-page-login,
+		body {
+			width: 100%;
+			height: 100%;
+			margin: 0px;
+			padding: 0px;
+		}
+		.mui-content {
+			height: 100%;
+		}
+		.area {
+			margin: 20px auto 0px auto;
+		}
+		.mui-input-group:first-child {
+			margin-top: 20px;
+		}
+		.mui-input-group label {
+			width: 22%;
+		}
+		.mui-input-row label~input,
+		.mui-input-row label~select,
+		.mui-input-row label~textarea {
+			width: 78%;
+		}
+		.mui-checkbox input[type=checkbox],
+		.mui-radio input[type=radio] {
+			top: 6px;
+		}
+		.mui-content-padded {
+			margin-top: 25px;
+		}
+		.mui-btn {
+			padding: 10px;
+		}
+		#reg {
+			background-color: #fb6d9d;
+			border: 1px solid #fb6d9d;
+		}
+	</style>
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">注册</h1>
+	</header>
+	
+	<div class="mui-content">
+		<form class="mui-input-group">
+			<div class="mui-input-row">
+				<label>昵称</label>
+				<input id='username' type="text" class="mui-input-clear mui-input" placeholder="请输入昵称">
+			</div>
+			<div class="mui-input-row">
+				<label>邮箱</label>
+				<input id='email' type="email" class="mui-input-clear mui-input" placeholder="请输入邮箱">
+			</div>
+			<div class="mui-input-row">
+				<label>密码</label>
+				<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+			</div>
+			<div class="mui-input-row">
+				<label>确认</label>
+				<input id='password_confirmation' type="password" class="mui-input-clear mui-input" placeholder="请确认密码">
+			</div>
+		</form>
+		<div class="mui-content-padded">
+			<button id='reg' class="mui-btn mui-btn-block mui-btn-primary">注册</button>
+		</div>
+		<div class="mui-content-padded">
+			<p>注册真实可用，注册成功后的用户可用于登录，评论等</p>
+		</div>
+	</div>
+</body>
+</html>
+
+<script type="text/javascript">
+	mui.init();
+	
+	mui('.mui-content-padded').on('tap', '#reg', function (){
+		var username = document.getElementById('username').value;
+		var email = document.getElementById('email').value;
+		var password = document.getElementById('password').value;
+		var repassword = document.getElementById('password_confirmation').value;
+		
+		mui.post(Lara.signup, {
+			username : username,
+			email : email,
+			password : password,
+			password_confirmation : repassword
+		}, function (data){
+			if(data.status_code != null){
+				mui.each(data.errors, function (index, error){
+					plus.nativeUI.toast(error[0]);
+					return false;
+				});
+			}else{
+				
+			}
+		},'json');
+		
+	});
+</script>

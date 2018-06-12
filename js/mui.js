@@ -3175,7 +3175,7 @@ Function.prototype.bind = Function.prototype.bind || function(to) {
 				clearTimeout(abortTimeout);
 				var result, error = false;
 				var isLocal = protocol === 'file:';
-				if((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304 || (xhr.status === 0 && isLocal && xhr.responseText)) {
+				if((xhr.status >= 200 && xhr.status <= 500) || xhr.status === 304 || (xhr.status === 0 && isLocal && xhr.responseText)) {
 					dataType = dataType || mimeToDataType(settings.mimeType || xhr.getResponseHeader('content-type'));
 					result = xhr.responseText;
 					try {
